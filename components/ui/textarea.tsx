@@ -1,6 +1,6 @@
-import * as React from "react";
-import {TextInput} from "react-native";
-import {cn} from "@/lib/utils";
+import * as React from "react"
+import { TextInput } from "react-native"
+import { cn } from "@/lib/utils"
 
 const Textarea = React.forwardRef<
   React.ElementRef<typeof TextInput>,
@@ -30,10 +30,10 @@ const Textarea = React.forwardRef<
         textAlignVertical="top"
         {...props}
       />
-    );
+    )
   },
-);
+)
 
-Textarea.displayName = "Textarea";
+Textarea.displayName = "Textarea"
 
-export {Textarea};
+export { Textarea }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -34,5 +34,18 @@
   },
   "files": {
     "ignoreUnknown": true
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "attributePosition": "auto"
+    }
   }
 }

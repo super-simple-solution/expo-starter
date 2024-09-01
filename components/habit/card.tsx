@@ -1,8 +1,8 @@
-import type React from "react";
-import {View, Pressable} from "react-native";
-import {Button} from "@/components/ui/button";
-import {Text} from "@/components/ui/text";
-import type {Habit} from "@/lib/storage";
+import type React from "react"
+import { View, Pressable } from "react-native"
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
+import type { Habit } from "@/lib/storage"
 import {
   Card,
   CardContent,
@@ -10,18 +10,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {Badge} from "../ui/badge";
-import {Progress} from "../ui/progress";
-import {Link} from "expo-router";
+} from "@/components/ui/card"
+import { Badge } from "../ui/badge"
+import { Progress } from "../ui/progress"
+import { Link } from "expo-router"
 
 type HabitProps = {
-  onRestore?: (HabitId: string) => void;
-  onDelete?: (HabitId: string) => void;
-} & Habit;
+  onRestore?: (HabitId: string) => void
+  onDelete?: (HabitId: string) => void
+} & Habit
 
-export const HabitCard: React.FC<HabitProps> = ({id, name, description, category, archived, onRestore, onDelete}: HabitProps) => {
-
+export const HabitCard: React.FC<HabitProps> = ({ id, name, description, category, archived, onRestore, onDelete }: HabitProps) => {
   return (
     archived ? <View >
       <Card className="rounded-2xl">
@@ -51,7 +50,7 @@ export const HabitCard: React.FC<HabitProps> = ({id, name, description, category
           </Button>
         </CardFooter>
       </Card>
-    </View> : <Link href={`/habits/${ id }`} asChild>
+    </View> : <Link href={`/habits/${id}`} asChild>
       <Pressable>
         <Card className="rounded-2xl">
           <CardHeader>
@@ -77,5 +76,5 @@ export const HabitCard: React.FC<HabitProps> = ({id, name, description, category
         </Card>
       </Pressable>
     </Link>
-  );
-};
+  )
+}

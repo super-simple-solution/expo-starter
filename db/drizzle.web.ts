@@ -1,21 +1,21 @@
-import { type SQLJsDatabase, drizzle } from "drizzle-orm/sql-js";
-import initSqlJs from "sql.js";
-import { useDatabase } from "./provider";
-import { useEffect, useReducer } from "react";
+import { type SQLJsDatabase, drizzle } from "drizzle-orm/sql-js"
+import initSqlJs from "sql.js"
+import { useDatabase } from "./provider"
+import { useEffect, useReducer } from "react"
 
 export const initialize = async (): Promise<SQLJsDatabase> => {
-  console.log("initialze web");
+  console.log("initialze web")
   const sqlPromise = initSqlJs({
     locateFile: (file) => `https://sql.js.org/dist/${file}`,
-  });
+  })
   const dataPromise = fetch("./database.sqlite").then((res) =>
     res.arrayBuffer(),
-  );
-  const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
-  const sqldb = new SQL.Database(new Uint8Array(buf));
-  const db = drizzle(sqldb);
-  return db;
-};
+  )
+  const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+  const sqldb = new SQL.Database(new Uint8Array(buf))
+  const db = drizzle(sqldb)
+  return db
+}
 
 interface State {
   success: boolean;
@@ -28,38 +28,38 @@ type Action =
   | { type: "error"; payload: Error };
 
 export const useMigrationHelper = (): State => {
-  const { db } = useDatabase();
+  const { db } = useDatabase()
 
   const initialState: State = {
     success: false,
     error: undefined,
-  };
+  }
 
   const fetchReducer = (state: State, action: Action): State => {
     switch (action.type) {
       case "migrating": {
-        return { ...initialState };
+        return { ...initialState }
       }
       case "migrated": {
-        return { ...initialState, success: action.payload };
+        return { ...initialState, success: action.payload }
       }
       case "error": {
-        return { ...initialState, error: action.payload };
+        return { ...initialState, error: action.payload }
       }
       default: {
-        return state;
+        return state
       }
     }
-  };
+  }
 
-  const [state, dispatch] = useReducer(fetchReducer, initialState);
+  const [state, dispatch] = useReducer(fetchReducer, initialState)
 
   useEffect(() => {
     if (!db) {
-      return dispatch({ type: "migrating" });
+      return dispatch({ type: "migrating" })
     }
-    dispatch({ type: "migrated", payload: true });
-  }, [db]);
+    dispatch({ type: "migrated", payload: true })
+  }, [db])
 
-  return state;
-};
+  return state
+}

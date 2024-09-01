@@ -1,13 +1,13 @@
-import * as React from "react";
-import * as LabelPrimitive from "@/components/primitives/label";
-import {cn} from "@/lib/utils";
+import * as React from "react"
+import * as LabelPrimitive from "@/components/primitives/label"
+import { cn } from "@/lib/utils"
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Text>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Text>
 >(
   (
-    {className, onPress, onLongPress, onPressIn, onPressOut, ...props},
+    { className, onPress, onLongPress, onPressIn, onPressOut, ...props },
     ref,
   ) => (
     <LabelPrimitive.Root
@@ -27,7 +27,7 @@ const Label = React.forwardRef<
       />
     </LabelPrimitive.Root>
   ),
-);
-Label.displayName = LabelPrimitive.Root.displayName;
+)
+Label.displayName = LabelPrimitive.Root.displayName
 
-export {Label};
+export { Label }

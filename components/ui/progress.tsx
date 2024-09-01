@@ -1,21 +1,21 @@
-import * as React from "react";
-import {Platform} from "react-native";
+import * as React from "react"
+import { Platform } from "react-native"
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
   withSpring,
-} from "react-native-reanimated";
-import {cn} from "@/lib/utils";
-import * as ProgressPrimitive from "../primitives/progress";
+} from "react-native-reanimated"
+import { cn } from "@/lib/utils"
+import * as ProgressPrimitive from "../primitives/progress"
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
-    indicatorClassName?: string;
+    indicatorClassName?: string
   }
->(({className, value, indicatorClassName, ...props}, ref) => {
+>(({ className, value, indicatorClassName, ...props }, ref) => {
   return (
     <ProgressPrimitive.Root
       ref={ref}
@@ -27,31 +27,31 @@ const Progress = React.forwardRef<
     >
       <Indicator value={value} className={indicatorClassName} />
     </ProgressPrimitive.Root>
-  );
-});
-Progress.displayName = ProgressPrimitive.Root.displayName;
+  )
+})
+Progress.displayName = ProgressPrimitive.Root.displayName
 
-export {Progress};
+export { Progress }
 
 function Indicator({
   value,
   className,
-}: {value: number | undefined | null; className?: string}) {
-  const progress = useDerivedValue(() => value ?? 0);
+}: { value: number | undefined | null; className?: string }) {
+  const progress = useDerivedValue(() => value ?? 0)
 
   const indicator = useAnimatedStyle(() => {
     return {
       width: withSpring(
-        `${ interpolate(
+        `${interpolate(
           progress.value,
           [0, 100],
           [1, 100],
           Extrapolation.CLAMP,
-        ) }%`,
-        {overshootClamping: true},
+        )}%`,
+        { overshootClamping: true },
       ),
-    };
-  });
+    }
+  })
 
   if (Platform.OS === "web") {
     return (
@@ -60,9 +60,9 @@ function Indicator({
           "h-full w-full flex-1 bg-primary web:transition-all",
           className,
         )}
-        style={{transform: `translateX(-${ 100 - (value ?? 0) }%)`}}
+        style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}
       />
-    );
+    )
   }
 
   return (
@@ -72,5 +72,5 @@ function Indicator({
         className={cn("h-full bg-foreground", className)}
       />
     </ProgressPrimitive.Indicator>
-  );
+  )
 }

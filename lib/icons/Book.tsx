@@ -1,5 +1,5 @@
-import {BookOpen} from 'lucide-react-native';
+import { BookOpen } from 'lucide-react-native'
 
-import {iconWithClassName} from './iconWithClassName';
-iconWithClassName(BookOpen);
-export {BookOpen};
+import { iconWithClassName } from './iconWithClassName'
+iconWithClassName(BookOpen)
+export { BookOpen }

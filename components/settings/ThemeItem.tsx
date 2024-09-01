@@ -1,32 +1,32 @@
-import {Platform, Pressable, View} from "react-native";
+import { Platform, Pressable, View } from "react-native"
 
-import {H4} from '@/components/ui/typography';
-import {BottomSheet, BottomSheetContent, BottomSheetHeader, BottomSheetOpenTrigger, BottomSheetView} from "@/components/primitives/bottomSheet/bottom-sheet.native";
-import {Text} from "@/components/ui//text";
-import {Moon, Palette, Smartphone, Sun} from '@/lib/icons';
+import { H4 } from '@/components/ui/typography'
+import { BottomSheet, BottomSheetContent, BottomSheetHeader, BottomSheetOpenTrigger, BottomSheetView } from "@/components/primitives/bottomSheet/bottom-sheet.native"
+import { Text } from "@/components/ui//text"
+import { Moon, Palette, Smartphone, Sun } from '@/lib/icons'
 
-import ListItem from "@/components/ui/list-item";
-import {Check} from "@/lib/icons/Check";
-import {useCallback, useMemo, useState} from "react";
-import {useBottomSheetModal} from "@gorhom/bottom-sheet";
-import {getItem, setItem} from "@/lib/storage";
+import ListItem from "@/components/ui/list-item"
+import { Check } from "@/lib/icons/Check"
+import { useCallback, useMemo, useState } from "react"
+import { useBottomSheetModal } from "@gorhom/bottom-sheet"
+import { getItem, setItem } from "@/lib/storage"
 
-import {useColorScheme} from "@/lib/useColorScheme";
-import {useTheme} from "next-themes";
+import { useColorScheme } from "@/lib/useColorScheme"
+import { useTheme } from "next-themes"
 type ItemData = {
-  title: string;
-  subtitle: string;
-  value: "light" | "dark" | "system";
-  icon: JSX.Element;
-};
+  title: string
+  subtitle: string
+  value: "light" | "dark" | "system"
+  icon: JSX.Element
+}
 
 type ItemProps = {
-  item: ItemData;
-  onPress: () => void;
-  selected: boolean;
-};
+  item: ItemData
+  onPress: () => void
+  selected: boolean
+}
 
-function ThemeItem({item, onPress, selected}: ItemProps) {
+function ThemeItem({ item, onPress, selected }: ItemProps) {
   return (
     <Pressable className="py-4" onPress={onPress}>
       <View className="flex bg-pink flex-row justify-between">
@@ -38,15 +38,15 @@ function ThemeItem({item, onPress, selected}: ItemProps) {
         <View>{selected && <Check className="text-accent-foreground" />}</View>
       </View>
     </Pressable>
-  );
+  )
 }
 
 export const ThemeSettingItem = () => {
   const [selectedTheme, setSelectedTheme] = useState(getItem<"light" | "dark" | "system">("theme"),
-  );
-  const {setColorScheme} = useColorScheme();
-  const {dismiss} = useBottomSheetModal();
-  const {theme, setTheme} = useTheme()
+  )
+  const { setColorScheme } = useColorScheme()
+  const { dismiss } = useBottomSheetModal()
+  const { theme, setTheme } = useTheme()
 
   const themes: ItemData[] = useMemo(
     () => [
@@ -70,16 +70,16 @@ export const ThemeSettingItem = () => {
       },
     ],
     [],
-  );
+  )
 
   const onSelect = useCallback(
     (value: "light" | "dark" | "system") => {
       if (Platform.OS === "web") {
         setTheme(value)
       } else {
-        setColorScheme(value);
+        setColorScheme(value)
         setItem("theme", value)
-        setSelectedTheme(value);
+        setSelectedTheme(value)
 
       }
       dismiss()
@@ -91,7 +91,6 @@ export const ThemeSettingItem = () => {
         <ListItem
           itemLeft={(props) => <Palette {...props} />} // props adds size and color attributes
           label="Theme"
-
         />
       </BottomSheetOpenTrigger>
       <BottomSheetContent>
@@ -112,5 +111,5 @@ export const ThemeSettingItem = () => {
         </BottomSheetView>
       </BottomSheetContent>
     </BottomSheet>
-  );
-};
+  )
+}

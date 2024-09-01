@@ -1,8 +1,8 @@
-import * as React from "react";
-import {type ListRenderItemInfo, Text, View} from "react-native";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {cn} from "../../lib/utils";
-import {Check, ChevronsUpDown, Search} from "../Icons";
+import * as React from "react"
+import { type ListRenderItemInfo, Text, View } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { cn } from "../../lib/utils"
+import { Check, ChevronsUpDown, Search } from "../Icons"
 import {
   BottomSheet,
   BottomSheetContent,
@@ -11,29 +11,29 @@ import {
   BottomSheetOpenTrigger,
   BottomSheetTextInput,
   useBottomSheet,
-} from "./bottom-sheet";
-import {Button, buttonTextVariants, buttonVariants} from "./button";
+} from "./bottom-sheet"
+import { Button, buttonTextVariants, buttonVariants } from "./button"
 
 // TODO: refactor and move to UI
 // TODO: create web component, use https://ui.shadcn.com/docs/components/combobox
 
-const HEADER_HEIGHT = 130;
+const HEADER_HEIGHT = 130
 
 interface ComboboxOption {
-  label?: string;
-  value?: string;
+  label?: string
+  value?: string
 }
 
 const Combobox = React.forwardRef<
   React.ElementRef<typeof Button>,
   Omit<React.ComponentPropsWithoutRef<typeof Button>, "children"> & {
-    items: ComboboxOption[];
-    placeholder?: string;
-    inputProps?: React.ComponentPropsWithoutRef<typeof BottomSheetTextInput>;
-    emptyText?: string;
-    defaultSelectedItem?: ComboboxOption | null;
-    selectedItem?: ComboboxOption | null;
-    onSelectedItemChange?: (option: ComboboxOption | null) => void;
+    items: ComboboxOption[]
+    placeholder?: string
+    inputProps?: React.ComponentPropsWithoutRef<typeof BottomSheetTextInput>
+    emptyText?: string
+    defaultSelectedItem?: ComboboxOption | null
+    selectedItem?: ComboboxOption | null
+    onSelectedItemChange?: (option: ComboboxOption | null) => void
   }
 >(
   (
@@ -53,50 +53,50 @@ const Combobox = React.forwardRef<
     },
     ref,
   ) => {
-    const insets = useSafeAreaInsets();
-    const [search, setSearch] = React.useState("");
+    const insets = useSafeAreaInsets()
+    const [search, setSearch] = React.useState("")
     const [selectedItem, setSelectedItem] =
-      React.useState<ComboboxOption | null>(defaultSelectedItem);
-    const bottomSheet = useBottomSheet();
+      React.useState<ComboboxOption | null>(defaultSelectedItem)
+    const bottomSheet = useBottomSheet()
     const inputRef =
-      React.useRef<React.ComponentRef<typeof BottomSheetTextInput>>(null);
+      React.useRef<React.ComponentRef<typeof BottomSheetTextInput>>(null)
 
     const listItems = React.useMemo(() => {
       return search
         ? items.filter((item) => {
           return item.label
             ?.toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase());
+            .includes(search.toLocaleLowerCase())
         })
-        : items;
-    }, [items, search]);
+        : items
+    }, [items, search])
 
     function onItemChange(listItem: ComboboxOption) {
       if (selectedItemProp?.value === listItem.value) {
-        return null;
+        return null
       }
-      setSearch("");
-      bottomSheet.close();
-      return listItem;
+      setSearch("")
+      bottomSheet.close()
+      return listItem
     }
 
     const renderItem = React.useCallback(
-      ({item}: ListRenderItemInfo<unknown>) => {
-        const listItem = item as ComboboxOption;
+      ({ item }: ListRenderItemInfo<unknown>) => {
+        const listItem = item as ComboboxOption
         const isSelected = onSelectedItemChange
           ? selectedItemProp?.value === listItem.value
-          : selectedItem?.value === listItem.value;
+          : selectedItem?.value === listItem.value
         return (
           <Button
             variant="ghost"
             className="items-center flex-row flex-1 justify-between px-3 py-4"
-            style={{minHeight: 70}}
+            style={{ minHeight: 70 }}
             onPress={() => {
               if (onSelectedItemChange) {
-                onSelectedItemChange(onItemChange(listItem));
-                return;
+                onSelectedItemChange(onItemChange(listItem))
+                return
               }
-              setSelectedItem(onItemChange(listItem));
+              setSelectedItem(onItemChange(listItem))
             }}
           >
             <View className="flex-row flex-1">
@@ -108,31 +108,31 @@ const Combobox = React.forwardRef<
               <Check size={24} className={"text-foreground px-6 mt-1.5"} />
             )}
           </Button>
-        );
+        )
       },
       [selectedItem, selectedItemProp],
-    );
+    )
 
     function onSubmitEditing() {
-      const firstItem = listItems[0];
-      if (!firstItem) return;
+      const firstItem = listItems[0]
+      if (!firstItem) return
       if (onSelectedItemChange) {
-        onSelectedItemChange(firstItem);
+        onSelectedItemChange(firstItem)
       } else {
-        setSelectedItem(firstItem);
+        setSelectedItem(firstItem)
       }
-      bottomSheet.close();
+      bottomSheet.close()
     }
 
     function onSearchIconPress() {
-      if (!inputRef.current) return;
-      const input = inputRef.current;
+      if (!inputRef.current) return
+      const input = inputRef.current
       if (input && "focus" in input && typeof input.focus === "function") {
-        input.focus();
+        input.focus()
       }
     }
 
-    const itemSelected = onSelectedItemChange ? selectedItemProp : selectedItem;
+    const itemSelected = onSelectedItemChange ? selectedItemProp : selectedItem
 
     return (
       <BottomSheet>
@@ -163,7 +163,7 @@ const Combobox = React.forwardRef<
         <BottomSheetContent
           ref={bottomSheet.ref}
           onDismiss={() => {
-            setSearch("");
+            setSearch("")
           }}
         >
           <BottomSheetHeader className="border-b-0">
@@ -208,21 +208,21 @@ const Combobox = React.forwardRef<
               return (
                 <View
                   className="items-center flex-row justify-center flex-1  px-3 py-5"
-                  style={{minHeight: 70}}
+                  style={{ minHeight: 70 }}
                 >
                   <Text className={"text-muted-foreground text-xl text-center"}>
                     {emptyText}
                   </Text>
                 </View>
-              );
+              )
             }}
           />
         </BottomSheetContent>
       </BottomSheet>
-    );
+    )
   },
-);
+)
 
-Combobox.displayName = "Combobox";
+Combobox.displayName = "Combobox"
 
-export {Combobox, type ComboboxOption};
+export { Combobox, type ComboboxOption }
